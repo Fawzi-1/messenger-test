@@ -3,57 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Project</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Simple Messenger</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #e9ecef;
         }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        section {
-            margin: 20px 0;
-            padding: 20px;
+        .chat-container {
+            width: 400px;
+            margin: auto;
             background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .messages {
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .message {
+            margin: 10px 0;
+        }
+        .message p {
+            margin: 0;
+            padding: 10px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
+        .message.sent p {
+            background-color: #007bff;
+            color: #fff;
+            text-align: right;
         }
-        a:hover {
-            text-decoration: underline;
+        .message.received p {
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>My GitHub Project</h1>
-</header>
+<div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-container">
+        <input type="text" id="messageInput" placeholder="Type a message..." />
+        <button id="sendButton">Send</button>
+    </div>
+</div>
 
-<section>
-    <h2>About This Project</h2>
-    <p>This project aims to [describe the purpose of your project].</p>
-</section>
+<script>
+    const messagesDiv = document.getElementById('messages');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
 
-<section>
-    <h2>Features</h2>
-    <ul>
-        <li>Feature 1: [Description]</li>
-        <li>Feature 2: [Description]</li>
-        <li>Feature 3: [Description]</li>
-    </ul>
-</section>
+    sendButton.addEventListener('click', sendMessage);
 
+    function sendMessage() {
+        const messageText = messageInput.value.trim();
+        if (messageText === '') return;
+
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', 'sent');
+        messageElement.innerHTML = `<p>${messageText}</p>`;
+        messagesDiv.appendChild(messageElement);
+
+        messageInput.value = '';
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        // Simulate received message
+        setTimeout(() => {
+            const receivedMessage = document.createElement('div');
+            receivedMessage.classList.add('message', 'received');
+            receivedMessage.innerHTML = `<p>Reply: ${messageText}</p>`;
+            messagesDiv.appendChild(receivedMessage);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 1000);
+    }
+</script>
 
 </body>
 </html>
+
